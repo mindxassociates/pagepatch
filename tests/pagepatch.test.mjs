@@ -14,14 +14,29 @@ test("preview uses explicit isolation controls", () => {
   assert.match(html, /sandbox="allow-scripts allow-same-origin"/);
   assert.match(html, /allow-scripts allow-forms allow-modals allow-popups/);
   assert.match(html, /referrerpolicy="no-referrer"/);
-  assert.match(html, /doc\.querySelectorAll\('script'\)\.forEach/);
-  assert.match(html, /\^on\/i/);
+  assert.ok(html.includes("application/x-pagepatch-inert"));
+  assert.ok(html.includes("ppScriptType"));
+  assert.ok(html.includes("ppHeldAttrs"));
+});
+
+test("active site behavior is restored before export", () => {
+  assert.ok(html.includes("type==='__none__'"));
+  assert.ok(html.includes("setAttribute(name,value)"));
+  assert.ok(html.includes("delete n.dataset.ppHeldAttrs"));
 });
 
 test("dangerous link schemes and oversized input are guarded", () => {
-  assert.match(html, /javascript\|vbscript/);
+  assert.match(html, /javascript\|vbscript\|data/);
   assert.match(html, /25\*1024\*1024/);
   assert.match(html, /5\*1024\*1024/);
+  assert.ok(html.includes("names.length>500"));
+  assert.match(html, /100\*1024\*1024/);
+});
+
+test("ordinary relative links remain accepted", () => {
+  assert.ok(html.includes("function safeUrl(value)"));
+  assert.ok(html.includes("return v}function openLink"));
+  assert.ok(html.includes("url=safeUrl($('#newImageLink').value)"));
 });
 
 test("static ids are unique", () => {
