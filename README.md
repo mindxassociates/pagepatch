@@ -9,6 +9,9 @@ Chinese is the default interface language; use the compact **中 / EN** control 
 ## Highlights
 
 - Opens `.html`, `.htm`, and complete website `.zip` files
+- Opens pasted full-page HTML or generated HTML snippets
+- Navigates to a selected element’s parent or first child in deeply nested layouts
+- Copies a selected element’s HTML with a clipboard fallback
 - Preserves supporting files and relative asset paths in ZIP projects
 - Edits text, typography, colors, spacing, sizing, links, images, and element HTML
 - Adds or replaces images with alt text, optional links, sizing, and alignment
