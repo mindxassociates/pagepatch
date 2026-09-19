@@ -39,6 +39,13 @@ test("ordinary relative links remain accepted", () => {
   assert.ok(html.includes("url=safeUrl($('#newImageLink').value)"));
 });
 
+test("CanvasCode-inspired utilities are present", () => {
+  for (const marker of ["pasteOpen", "pasteModal", "loadPastedHtml", "selectParent", "selectChild", "copyElement", "function copyText", "function focusElement"]) {
+    assert.ok(html.includes(marker), `missing ${marker}`);
+  }
+  assert.ok(html.includes("document.execCommand('copy')"));
+});
+
 test("static ids are unique", () => {
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
